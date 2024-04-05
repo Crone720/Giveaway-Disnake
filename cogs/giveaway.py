@@ -230,11 +230,10 @@ class GiveawayCommand(commands.Cog):
                                                         f"Розыгрыш закончится через: {love_time_R} \n({love_time_F})\n"
                                                         f"Приз: {prize}\n"
                                                         f"Кол-Во победителей: {winnerscount}")
-        await interaction.send("Вы Успешно создали розыгрыш", ephemeral=True)
         message = await interaction.channel.send(embed=embed)
 
         giveaway_id = await save_giveaway(interaction.channel_id, message.id, prize, end_time)
-
+        await interaction.send(f"Вы Успешно создали розыгрыш\nID Розыгрыша: {giveaway_id} не потеряйте его)", ephemeral=True)
         await message.edit(view=FirstGiveawayButton(giveaway_id))
         await asyncio.sleep(duration * 60)
         winner_ids = await pick_winners(giveaway_id, winnerscount)
